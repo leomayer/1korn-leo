@@ -1,0 +1,28 @@
+.center,
+th {
+	justify-content: center;
+	text-align: center;
+}
+.right {
+	justify-content: center;
+	text-align: end;
+}
+.mat-column-Gebinde {
+	padding-right: 8px;
+}
+.mat-column-Name {
+	padding-left: 8px;
+	white-space: break-spaces;
+}
+.mat-column-Einheit {
+	max-width: 6em;
+	white-space: break-spaces;
+}
+.mat-column-Pfand {
+	max-width: 6em;
+	text-align: center;
+	white-space: break-spaces;
+}
+.mat-column-Nettopreis {
+	padding-right: 1em;
+}

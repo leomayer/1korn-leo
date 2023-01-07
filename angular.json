@@ -10,6 +10,12 @@
           "style": "scss"
         }
       },
+      "i18n": {
+				"sourceLocale": "en",
+				"locales": {
+					"de": "src/i18n/messages.de.xlf"
+				}
+			},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -28,6 +34,11 @@
               "src/assets"
             ],
             "styles": [
+            							{
+								"input": "node_modules/@angular/material/prebuilt-themes/purple-green.css",
+								"inject": true
+							},
+							"src/theme.scss",
               "src/styles.scss"
             ],
             "scripts": []
@@ -103,5 +114,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "dcd1d0cc-beaf-4827-9374-76dfd53110bf"
   }
 }

@@ -1,0 +1,12 @@
+{
+	"singleQuote": true,
+	"singleAttributePerLine": false,
+	"printWidth": 120,
+	"trailingComma": "all",
+	"useTabs": true,
+	"attributeGroups": ["^#", "$ANGULAR_STRUCTURAL_DIRECTIVE", "^(id|name|formControlName)$", "^mat-", "^class$", "^mat", "^cdk", "$ANGULAR_TWO_WAY_BINDING", "$ANGULAR_OUTPUT", "$ANGULAR_INPUT", "$DEFAULT", "^aria-", "^i18n" ],
+	"importOrder": ["^@angular/(.*)$", "^./", "^../", "^[./]", "<THIRD_PARTY_MODULES>" ],
+	"importOrderSortSpecifiers": true,
+	"importOrderSeparation": true,
+	"importOrderParserPlugins": ["typescript", "decorators-legacy"]
+}
