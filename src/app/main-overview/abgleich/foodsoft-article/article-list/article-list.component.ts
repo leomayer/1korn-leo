@@ -83,7 +83,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 							chk1 = a.Einheit.localeCompare(b.Einheit);
 							break;
 						case 'Notiz':
-							chk1 = a.Notiz.localeCompare(b.Notiz);
+							chk1 = (a.Notiz ?? '').localeCompare(b.Notiz ?? '');
 							break;
 						case 'Nettopreis':
 							chk1 = this.compare(a.Nettopreis, b.Nettopreis);

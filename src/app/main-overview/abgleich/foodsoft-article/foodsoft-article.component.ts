@@ -73,4 +73,17 @@ export class FoodsoftArticleComponent implements OnInit {
 		console.log(target.files[0]);
 		this.reader.readAsBinaryString(target.files[0]);
 	}
+	
+	/**
+	 * 
+	 * function contains(selector, text1, text2) {
+  var elements = document.querySelectorAll(selector);
+  return Array.prototype.filter.call(elements, function(element){
+    return RegExp(text1).test(element.textContent) && RegExp(text2).test(element.textContent);
+  });
+}
+	 * contains('tr', /(bersta[.]*)/i, /2022/);
+	 * 
+	 * 
+	 */
 }

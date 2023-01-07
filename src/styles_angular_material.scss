@@ -1,0 +1,93 @@
+/*
+ * Include Angular Material colors https://stackoverflow.com/a/50034890/325868
+*/
+@use '@angular/material' as mat;
+@import '@angular/material/theming';
+
+$primaryPalette: mat-palette($mat-indigo);
+$purplePalette: mat-palette($mat-deep-purple);
+$purpleLightPalette: mat-palette($mat-purple);
+$lightIndigo: mat-palette($mat-indigo-palette);
+$greyPalette: mat-palette($mat-grey);
+$limePalette: mat-palette($mat-lime);
+$tealPalette: mat-palette($mat-teal-palette);
+$cyanPalette: mat-palette($mat-cyan-palette);
+$pinkPalette: mat-palette($mat-pink-palette);
+$redPalette: mat-palette($mat-red-palette);
+$lightBluePalette: mat-palette($mat-light-blue-palette);
+$yellowPalette: mat-palette($mat-yellow-palette);
+$bluePalette: mat-palette($mat-blue-palette);
+$greenPalette: mat-palette($mat-green-palette);
+$amberPalette: mat-palette($mat-amber-palette);
+$orangePalette: mat-palette($mat-orange-palette);
+$bluegrayPalette: mat-palette($mat-blue-gray);
+
+$accentPalette: mat-palette($mat-pink);
+// https://material.io/archive/guidelines/style/color.html#color-color-palette
+
+// the default warn palette is red, so use that if the theme doesn't define one
+$warnPalette: mat-palette($mat-red);
+
+// Create a config with the default typography levels.
+$config: mat.define-typography-config();
+
+/*
+ for constrast:  https://stackoverflow.com/a/45192996/325868 ==>
+ 
+	background-color: mat.get-color-from-palette($primaryPalette, 100);
+	color: mat-contrast($primaryPalette, 100);
+*/
+
+/* for the icons: following https://stackoverflow.com/a/69015172/325868 */
+
+@font-face {
+	font-style: normal;
+	font-weight: 400;
+	src: local('Material Icons'), local('MaterialIcons-Regular'),
+		url('assets/font/MaterialIcons-Regular.ttf') format('truetype');
+	font-family: 'Material Icons';
+}
+
+@font-face {
+	font-style: normal;
+	font-weight: 400;
+	src: local('Material Icons Outlined'), local('MaterialIconsOutlined-Regular'),
+		url('assets/font/MaterialIconsOutlined-Regular.otf') format('truetype');
+	font-family: 'Material Icons Outlined';
+	font-display: fallback;
+}
+.material-icon {
+	word-wrap: normal;
+
+	/* Support for all WebKit browsers. */
+	-webkit-font-smoothing: antialiased;
+
+	/* Support for Firefox. */
+	-moz-osx-font-smoothing: grayscale;
+
+	/* Support for IE. */
+	font-feature-settings: 'liga';
+	display: inline-block;
+	margin: 0px; /* make sure we don't have any additional spaces for the margin */
+	width: 24px;
+	height: 24px;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 24px; /* Preferred icon size */
+	line-height: 1;
+	letter-spacing: normal;
+	direction: ltr;
+	/* Support for Safari and Chrome. */
+	text-rendering: optimizeLegibility;
+	text-transform: none;
+	white-space: nowrap;
+}
+.material-icons {
+	@extend .material-icon;
+	font-family: 'Material Icons';
+}
+
+.material-icons-outlined {
+	@extend .material-icon;
+	font-family: 'Material Icons Outlined';
+}

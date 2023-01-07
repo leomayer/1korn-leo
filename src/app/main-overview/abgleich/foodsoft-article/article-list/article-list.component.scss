@@ -1,7 +1,15 @@
+@use '@angular/material' as mat;
+@import '../../../../../styles_angular_material.scss';
+
 .center,
 th {
 	justify-content: center;
 	text-align: center;
+}
+
+.group {
+	background-color: mat.get-color-from-palette($tealPalette, 600);
+	color: mat-contrast($tealPalette, 600);
 }
 .right {
 	justify-content: center;
