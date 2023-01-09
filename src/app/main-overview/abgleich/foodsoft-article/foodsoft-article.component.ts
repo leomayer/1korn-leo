@@ -28,6 +28,7 @@ export class FoodsoftArticleComponent implements OnInit {
 		this.reader.onload = (e: ProgressEvent) => {
 			/* read workbook */
 			const bstr: string = (e?.target as FileReader).result as string;
+
 			const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary', codepage: 65001 });
 
 			/* grab first sheet */
@@ -76,11 +77,17 @@ export class FoodsoftArticleComponent implements OnInit {
 		if (evt?.target) {
 			/* wire up file reader */
 			const target = evt.target as HTMLInputElement;
+			if (target.files?.length === 0) {
+				this.stateHolder.articleFoodsoftLoaded.next([]);
+				console.log('No file selected');
+				return;
+			}
 			if (target.files?.length !== 1) {
 				throw new Error('Cannot use multiple files');
 			}
 
 			this.reader.readAsBinaryString(target.files[0]);
+			this.fileName = target.files[0].name;
 		}
 	}
 
