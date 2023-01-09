@@ -9,7 +9,8 @@
     "prettier": "prettier --write \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
     "prettier-watch": "onchange \"./{src,e2e}/**/*.{ts,js,html,scss}\" -- prettier --write  --ignore-unknown {{changed}}",
     "test": "ng test",
-    "start-1korn": "npm run start & npm run prettier-watch"
+    "start-1korn": "npm run start & npm run prettier-watch",
+    "github-pages": "ng deploy --base-href=/1korn-leo/"
   },
   "private": true,
   "dependencies": {
