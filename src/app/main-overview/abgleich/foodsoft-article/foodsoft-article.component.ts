@@ -18,8 +18,14 @@ export class FoodsoftArticleComponent implements OnInit {
 	constructor(private stateHolder: StateHolderService) {}
 
 	async ngOnInit(): Promise<void> {
-		const reader: FileReader = new FileReader();
-		reader.onload = (e: ProgressEvent) => {
+		this.initReader();
+		await getAssetFile(this.fileName, this.fileName, 'text/csv').then((file) => {
+			this.reader.readAsBinaryString(file);
+		});
+	}
+
+	initReader() {
+		this.reader.onload = (e: ProgressEvent) => {
 			/* read workbook */
 			const bstr: string = (e?.target as FileReader).result as string;
 			const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary', codepage: 65001 });
@@ -30,50 +36,54 @@ export class FoodsoftArticleComponent implements OnInit {
 
 			/* save data */
 			const data: FoodsoftArticle[] = XLSX.utils.sheet_to_json(ws);
-			const convertData = {} as FoodsoftCategory;
-			data.sort((a, b) => {
-				let chk1 = a.Kategorie.localeCompare(b.Kategorie);
-				if (!chk1) {
-					chk1 = a.Name.localeCompare(b.Name);
-				}
-				if (!chk1) {
-					chk1 = (a.Bestellnummer ? a.Bestellnummer : 0) > (b.Bestellnummer ? b.Bestellnummer : 0) ? 1 : -1;
-				}
-
-				return chk1;
-			});
-			data.forEach((tmp: FoodsoftArticle) => {
-				tmp.Gebinde = tmp.Gebindegröße;
-				tmp.Brutto = tmp.Nettopreis * (1 + tmp.MwSt / 100);
-				if (!convertData[tmp.Kategorie]) {
-					const initData = {} as FoodsoftArticle;
-					initData.Kategorie = tmp.Kategorie;
-					convertData[tmp.Kategorie] = [initData];
-				}
-				convertData[tmp.Kategorie].push(tmp);
-			});
-
 			const retData = [] as FoodsoftArticle[];
-			Object.keys(convertData).forEach((key: string) => {
-				convertData[key].forEach((el) => retData.push(el));
-			});
+
+			if (data?.length && data[0].Bestellnummer) {
+				const convertData = {} as FoodsoftCategory;
+				data.sort((a, b) => {
+					let chk1 = a.Kategorie.localeCompare(b.Kategorie);
+					if (!chk1) {
+						chk1 = a.Name.localeCompare(b.Name);
+					}
+					if (!chk1) {
+						chk1 = (a.Bestellnummer ? a.Bestellnummer : 0) > (b.Bestellnummer ? b.Bestellnummer : 0) ? 1 : -1;
+					}
+
+					return chk1;
+				});
+				data.forEach((tmp: FoodsoftArticle) => {
+					tmp.Gebinde = tmp.Gebindegröße;
+					tmp.Brutto = tmp.Nettopreis * (1 + tmp.MwSt / 100);
+					if (!convertData[tmp.Kategorie]) {
+						const initData = {} as FoodsoftArticle;
+						initData.Kategorie = tmp.Kategorie;
+						convertData[tmp.Kategorie] = [initData];
+					}
+					convertData[tmp.Kategorie].push(tmp);
+				});
+
+				Object.keys(convertData).forEach((key: string) => {
+					convertData[key].forEach((el) => retData.push(el));
+				});
+			}
+			// submit the array anyway
 			this.stateHolder.articleFoodsoftLoaded.next(retData);
 		};
-
-		await getAssetFile('articles_ziege.csv', 'articles_ziege.csv', 'text/csv').then((file) => {
-			reader.readAsBinaryString(file);
-		});
 	}
 
-	onFileChange(evt: any) {
-		/* wire up file reader */
-		const target: DataTransfer = <DataTransfer>evt.target;
-		if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+	onFileChange(evt: Event) {
+		console.log(evt.target);
+		if (evt?.target) {
+			/* wire up file reader */
+			const target = evt.target as HTMLInputElement;
+			if (target.files?.length !== 1) {
+				throw new Error('Cannot use multiple files');
+			}
 
-		console.log(target.files[0]);
-		this.reader.readAsBinaryString(target.files[0]);
+			this.reader.readAsBinaryString(target.files[0]);
+		}
 	}
-	
+
 	/**
 	 * 
 	 * function contains(selector, text1, text2) {

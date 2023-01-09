@@ -6,6 +6,7 @@ import { FoodsoftArticle } from '../foodsoft-article';
 
 import { Subscription } from 'rxjs';
 import { StateHolderService } from 'src/app/utils/state-holder.service';
+import { compare } from 'src/app/utils/util_collection';
 
 @Component({
 	selector: 'app-article-list',
@@ -86,18 +87,18 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 							chk1 = (a.Notiz ?? '').localeCompare(b.Notiz ?? '');
 							break;
 						case 'Nettopreis':
-							chk1 = this.compare(a.Nettopreis, b.Nettopreis);
+							chk1 = compare(a.Nettopreis, b.Nettopreis);
 							break;
 						case 'Brutto':
-							chk1 = this.compare(a.Brutto, b.Brutto);
+							chk1 = compare(a.Brutto, b.Brutto);
 							break;
 						case 'MwSt':
-							chk1 = this.compare(a.MwSt, b.MwSt);
+							chk1 = compare(a.MwSt, b.MwSt);
 							break;
 						case 'Bestellnummer':
 						// fall through
 						default:
-							chk1 = this.compare(a.Bestellnummer, b.Bestellnummer);
+							chk1 = compare(a.Bestellnummer, b.Bestellnummer);
 							break;
 					}
 					return chk1 * (sort.direction === 'asc' ? 1 : -1);
@@ -106,10 +107,6 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 			});
 		};
 		return sortFunction;
-	}
-
-	compare(val1: number, val2: number): number {
-		return (val1 ?? 0) > (val2 ?? 0) ? 1 : -1;
 	}
 
 	isGroup(index: number, article: FoodsoftArticle): boolean {

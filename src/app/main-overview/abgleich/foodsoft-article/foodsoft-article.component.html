@@ -1,5 +1,5 @@
-<!--
-<input type="file" (change)="onFileChange($event)" multiple="false" />
--->
-<p>Load default file '{{ fileName }}'</p>
+<p>
+	<input (change)="onFileChange($event)" type="file" multiple="false" />
+	Loaded file '{{ fileName }}'
+</p>
 <app-article-list></app-article-list>
