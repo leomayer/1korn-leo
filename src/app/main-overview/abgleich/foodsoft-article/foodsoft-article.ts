@@ -18,7 +18,7 @@ export interface FoodsoftArticle {
 	Produzent: string;
 }
 
-export interface FoodsoftCategoryG {
+export interface FoodsoftArticleContainer {
 	FoodsoftArticleCategory: FoodsoftArticleGeneric[];
 }
 export interface FoodsoftArticleCategory {
@@ -62,10 +62,27 @@ export interface FoodsoftArticleGeneric {
 }
 
 export interface FoodFileColStructure<T> {
+	value: T;
 	cName: string;
-	cType: T;
 	cPos: number;
 	optional: boolean; // flag to decide if the field is required for the import
 	isGroupField: boolean; // Marker if field is the one used for grouping (==> automatically sorted!)
-	sortOrder: number; // 0 or undefined: field not used, 1: field used as first compare, 2: ... second
+	sortOrder: number; // 0 or undefined: field not used, 1: field used as first compare (after grouping field), 2: ... second
 }
+
+export const createFoodArticle = (pattern: FoodsoftArticleGeneric): FoodsoftArticleGeneric => {
+	const ret = {} as FoodsoftArticleGeneric;
+	Object.keys(pattern).forEach((key) => {
+		const addField = {} as FoodFileColStructure<unknown>;
+		addField.cName = pattern[key].cName;
+		addField.cPos = pattern[key].cPos;
+		addField.sortOrder = pattern[key].sortOrder;
+		ret[key] = addField;
+	});
+	return ret;
+};
+export const createFoodGroupField = (pattern: FoodsoftArticleGeneric): FoodsoftArticleGeneric => {
+	const ret = createFoodArticle(pattern);
+	ret.category.isGroupField = true;
+	return ret;
+};

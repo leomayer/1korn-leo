@@ -87,18 +87,18 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 							chk1 = (a.Notiz ?? '').localeCompare(b.Notiz ?? '');
 							break;
 						case 'Nettopreis':
-							chk1 = compare(a.Nettopreis, b.Nettopreis);
+							//	chk1 = compare(a.Nettopreis, b.Nettopreis);
 							break;
 						case 'Brutto':
-							chk1 = compare(a.Brutto, b.Brutto);
+							//chk1 = compare(a.Brutto, b.Brutto);
 							break;
 						case 'MwSt':
-							chk1 = compare(a.MwSt, b.MwSt);
+							//chk1 = compare(a.MwSt, b.MwSt);
 							break;
 						case 'Bestellnummer':
 						// fall through
 						default:
-							chk1 = compare(a.Bestellnummer, b.Bestellnummer);
+							//chk1 = compare(a.Bestellnummer, b.Bestellnummer);
 							break;
 					}
 					return chk1 * (sort.direction === 'asc' ? 1 : -1);

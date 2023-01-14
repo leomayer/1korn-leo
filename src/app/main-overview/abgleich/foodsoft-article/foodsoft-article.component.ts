@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FoodsoftArticle, FoodsoftArticleGeneric, FoodsoftArticleGerman, FoodsoftCategory } from './foodsoft-article';
+import { FoodsoftArticle, FoodsoftArticleContainer, FoodsoftCategory } from './foodsoft-article';
+import { FoodsoftArticleService } from './foodsoft-article.service';
 
 import { StateHolderService } from 'src/app/utils/state-holder.service';
-import { compare, getAssetFile } from 'src/app/utils/util_collection';
+import { getAssetFile } from 'src/app/utils/util_collection';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -14,10 +15,10 @@ import * as XLSX from 'xlsx';
 export class FoodsoftArticleComponent implements OnInit {
 	fileName = 'articles_ziege.csv';
 
-	useArticleType = FoodsoftArticleGerman;
-
 	reader: FileReader = new FileReader();
-	constructor(private stateHolder: StateHolderService) {}
+
+	convertData!: FoodsoftArticleContainer;
+	constructor(private stateHolder: StateHolderService, private foodArticleService: FoodsoftArticleService) {}
 
 	async ngOnInit(): Promise<void> {
 		this.initReader();
@@ -90,54 +91,10 @@ export class FoodsoftArticleComponent implements OnInit {
 			/* save data */
 			const data: unknown[][] = XLSX.utils.sheet_to_json(ws, { header: 1 });
 			console.log(data);
-			const retData = [] as FoodsoftArticleGeneric[];
-			if (data?.length) {
-				this.fillFirstRow(data[0] as string[]);
-				for (let idx = 1; idx < data.length; idx++) {
-					if (data[idx]) {
-						retData.push(this.convertRow2Article(data[idx] as unknown[]));
-					}
-				}
-			}
-			const sortedData = this.sortFoodsoftArticles(retData);
-			console.log('Genric results:', sortedData);
+			const convertData = this.foodArticleService.convertCSVIntoContainer(data);
+			this.convertData = convertData;
+			console.log('Genric results:', convertData);
 		};
-	}
-
-	fillFirstRow(firstRow: string[]): void {
-		Object.keys(this.useArticleType).forEach((key) => {
-			this.useArticleType[key].cPos = firstRow.indexOf(this.useArticleType[key].cName);
-		});
-	}
-
-	convertRow2Article(row: unknown[]): FoodsoftArticleGeneric {
-		const ret = {} as FoodsoftArticleGeneric;
-		Object.keys(this.useArticleType).forEach((key) => {
-			const val = row[this.useArticleType[key].cPos];
-			// convert val as typeof this.useArticleType[key].cType
-			ret[key] = val;
-		});
-		return ret;
-	}
-
-	sortFoodsoftArticles(input: FoodsoftArticleGeneric[]): FoodsoftArticleGeneric[] {
-		const groupField = Object.keys(this.useArticleType).find((key) => this.useArticleType[key].isGroupField);
-		const firstField = Object.keys(this.useArticleType).find((key) => this.useArticleType[key].sortOrder === 1);
-		const secondField = Object.keys(this.useArticleType).find((key) => this.useArticleType[key].sortOrder === 2);
-		if (!groupField) {
-			throw new Error('Grouping field not defined in data structure; required for proper sorting!!!');
-		}
-
-		return input.sort((a, b) => {
-			let chk1 = compare(a[groupField], b[groupField]);
-			if (!chk1 && firstField) {
-				chk1 = compare(a[firstField], b[firstField]);
-			}
-			if (!chk1 && firstField && secondField) {
-				chk1 = compare(a[secondField], b[secondField]);
-			}
-			return chk1;
-		});
 	}
 
 	onFileChange(evt: Event) {
