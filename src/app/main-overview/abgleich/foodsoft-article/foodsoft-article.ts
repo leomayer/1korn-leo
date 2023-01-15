@@ -62,7 +62,7 @@ export interface FoodsoftArticleGeneric {
 }
 
 export interface FoodFileColStructure<T> {
-	value: T;
+	cValue: T;
 	cName: string;
 	cPos: number;
 	optional: boolean; // flag to decide if the field is required for the import
@@ -81,8 +81,9 @@ export const createFoodArticle = (pattern: FoodsoftArticleGeneric): FoodsoftArti
 	});
 	return ret;
 };
-export const createFoodGroupField = (pattern: FoodsoftArticleGeneric): FoodsoftArticleGeneric => {
+export const createFoodGroupField = (pattern: FoodsoftArticleGeneric, groupName: string): FoodsoftArticleGeneric => {
 	const ret = createFoodArticle(pattern);
 	ret.category.isGroupField = true;
+	ret.category.cValue = groupName;
 	return ret;
 };

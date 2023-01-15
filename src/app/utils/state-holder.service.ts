@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { FoodsoftArticle } from '../main-overview/abgleich/foodsoft-article/foodsoft-article';
+import { FoodsoftArticleContainer } from '../main-overview/abgleich/foodsoft-article/foodsoft-article';
 
 import { Subject } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 	providedIn: 'root',
 })
 export class StateHolderService {
-	articleFoodsoftLoaded = new Subject<FoodsoftArticle[]>();
+	articleFoodsoftLoaded = new Subject<FoodsoftArticleContainer>();
 
 	constructor() {}
 }

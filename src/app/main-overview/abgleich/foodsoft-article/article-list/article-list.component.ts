@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { FoodsoftArticle } from '../foodsoft-article';
+import { FoodsoftArticleContainer, FoodsoftArticleGeneric } from '../foodsoft-article';
+import { FoodsoftArticleService } from '../foodsoft-article.service';
 
 import { Subscription } from 'rxjs';
 import { StateHolderService } from 'src/app/utils/state-holder.service';
@@ -16,16 +17,16 @@ import { compare } from 'src/app/utils/util_collection';
 export class ArticleListComponent implements OnInit, OnDestroy {
 	@ViewChild(MatSort, { static: true }) sort!: MatSort;
 	displayedColumns: string[];
-	dataSource!: MatTableDataSource<FoodsoftArticle>;
+	dataSource!: MatTableDataSource<FoodsoftArticleGeneric>;
 	objKeys = Object.keys;
 	filterText = '';
 
 	lstOfSubscriptions = new Subscription();
 
-	constructor(private stateHolder: StateHolderService) {
+	constructor(private stateHolder: StateHolderService, private foodArticleService: FoodsoftArticleService) {
 		this.displayedColumns = [
 			'verf',
-			'Bestellnummer',
+			'id',
 			'Name',
 			'Produzent',
 			'Gebinde',
@@ -42,9 +43,13 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit(): void {
-		this.lstOfSubscriptions.add(this.stateHolder.articleFoodsoftLoaded.subscribe((list) => this.loadList(list)));
+		this.lstOfSubscriptions.add(
+			this.stateHolder.articleFoodsoftLoaded.subscribe((container) => this.loadList(container)),
+		);
 	}
-	loadList(list: FoodsoftArticle[]): void {
+	loadList(container: FoodsoftArticleContainer): void {
+		const list = this.foodArticleService.getListOfArticles4Table(container);
+		console.log('list', list);
 		this.dataSource = new MatTableDataSource(list);
 		// returns the property of the column definition (matColumnDef) by fetching the content from the row
 		//this.dataSource.sortingDataAccessor = (rowItem, property) => rowItem[property];
@@ -60,11 +65,13 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 	}
 
 	sortData() {
-		const sortFunction = (items: FoodsoftArticle[], sort: MatSort): FoodsoftArticle[] => {
+		const sortFunction = (items: FoodsoftArticleGeneric[], sort: MatSort): FoodsoftArticleGeneric[] => {
 			if (!sort.active || sort.direction === '') {
 				return items;
 			}
-			return items.sort((a: FoodsoftArticle, b: FoodsoftArticle) => {
+			return items.sort((a: FoodsoftArticleGeneric, b: FoodsoftArticleGeneric) => {
+				return 0;
+				/*
 				let chk1 = a.Kategorie.localeCompare(b.Kategorie);
 				if (!chk1) {
 					if (a.Bestellnummer === undefined || b.Bestellnummer === undefined) {
@@ -104,24 +111,25 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 					return chk1 * (sort.direction === 'asc' ? 1 : -1);
 				}
 				return chk1;
+*/
 			});
 		};
 		return sortFunction;
 	}
 
-	isGroup(index: number, article: FoodsoftArticle): boolean {
-		return !article.Bestellnummer;
+	isGroup(index: number, article: FoodsoftArticleGeneric): boolean {
+		return article.category.isGroupField;
 	}
 
-	filterPredicate(data: FoodsoftArticle, filter: string): boolean {
+	filterPredicate(data: FoodsoftArticleGeneric, filter: string): boolean {
 		return (
-			data.Bestellnummer?.toString().includes(filter) ||
-			data.Notiz.toLowerCase().includes(filter) ||
-			data.Name.toLowerCase().includes(filter)
+			data.id.cValue?.toString().includes(filter) ||
+			data.note.cValue?.toLowerCase().includes(filter) ||
+			data.name.cValue?.toLowerCase().includes(filter)
 		);
 	}
 
-	trackByFn(index: number, article: FoodsoftArticle) {
-		return article.Bestellnummer;
+	trackByFn(index: number, article: FoodsoftArticleGeneric) {
+		return article.id.cValue;
 	}
 }

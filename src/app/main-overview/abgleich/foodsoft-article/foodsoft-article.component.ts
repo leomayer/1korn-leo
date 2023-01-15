@@ -74,7 +74,7 @@ export class FoodsoftArticleComponent implements OnInit {
 				});
 			}
 			// submit the array anyway
-			this.stateHolder.articleFoodsoftLoaded.next(retData);
+			//	this.stateHolder.articleFoodsoftLoaded.next(retData);
 		};
 	}
 	initReaderGeneric() {
@@ -90,9 +90,11 @@ export class FoodsoftArticleComponent implements OnInit {
 
 			/* save data */
 			const data: unknown[][] = XLSX.utils.sheet_to_json(ws, { header: 1 });
-			console.log(data);
 			const convertData = this.foodArticleService.convertCSVIntoContainer(data);
 			this.convertData = convertData;
+			// submit the array anyway
+			this.stateHolder.articleFoodsoftLoaded.next(convertData);
+
 			console.log('Genric results:', convertData);
 		};
 	}
@@ -103,7 +105,7 @@ export class FoodsoftArticleComponent implements OnInit {
 			/* wire up file reader */
 			const target = evt.target as HTMLInputElement;
 			if (target.files?.length === 0) {
-				this.stateHolder.articleFoodsoftLoaded.next([]);
+				this.stateHolder.articleFoodsoftLoaded.next({} as FoodsoftArticleContainer);
 				console.log('No file selected');
 				return;
 			}

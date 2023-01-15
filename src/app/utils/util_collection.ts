@@ -10,8 +10,8 @@ export const getAssetFile = async (pathInAssetFolder: string, name: string, type
 };
 
 export const compare = (field1: FoodFileColStructure<unknown>, field2: FoodFileColStructure<unknown>): number => {
-	const val1 = field1.value;
-	const val2 = field2.value;
+	const val1 = field1.cValue;
+	const val2 = field2.cValue;
 	if (typeof val1 === 'string' || typeof val2 === 'string') {
 		return ((val1 as string) ?? '').localeCompare((val2 as string) ?? '');
 	} else {

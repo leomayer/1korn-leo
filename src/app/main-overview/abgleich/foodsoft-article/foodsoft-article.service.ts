@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import {
-	FoodsoftArticle,
 	FoodsoftArticleContainer,
 	FoodsoftArticleGeneric,
 	FoodsoftArticleGerman,
@@ -19,14 +18,23 @@ export class FoodsoftArticleService {
 
 	constructor() {}
 
+	getListOfArticles4Table(input: FoodsoftArticleContainer): FoodsoftArticleGeneric[] {
+		const ret = [] as FoodsoftArticleGeneric[];
+		Object.keys(input).forEach((key) => {
+			// when a new category starts => insert at the top the (empty) groupField
+			ret.push(createFoodGroupField(this.useArticleType, key));
+			ret.push(...input[key]);
+		});
+		return ret;
+	}
+
 	convertCSVIntoContainer(data: unknown[][]): FoodsoftArticleContainer {
 		const retData = [] as FoodsoftArticleGeneric[];
 		if (data?.length) {
 			this.fillFirstRow(data[0] as string[]);
-			for (let idx = 1; idx < data.length; idx++) {
-				if (data[idx]) {
-					retData.push(this.convertRow2Article(data[idx] as unknown[]));
-				}
+			const useData = data.slice(1);
+			for (const row of useData) {
+				retData.push(this.convertRow2Article(row));
 			}
 		}
 		this.fillValues(retData);
@@ -45,15 +53,14 @@ export class FoodsoftArticleService {
 		const ret = createFoodArticle(this.useArticleType);
 		Object.keys(this.useArticleType).forEach((key) => {
 			const val = row[this.useArticleType[key].cPos];
-			// convert val as typeof this.useArticleType[key].cType
-			ret[key].value = val;
+			ret[key].cValue = val;
 		});
 		return ret;
 	}
 
 	private fillValues(input: FoodsoftArticleGeneric[]): void {
 		input.forEach((tmp: FoodsoftArticleGeneric) => {
-			tmp.gross.value = tmp.net.value + (1 + tmp.vat.value / 100);
+			tmp.gross.cValue = tmp.net.cValue + (1 + tmp.vat.cValue / 100);
 		});
 	}
 
@@ -80,14 +87,8 @@ export class FoodsoftArticleService {
 	private convertIntoContainer(articles: FoodsoftArticleGeneric[]): FoodsoftArticleContainer {
 		const convertedArticles: FoodsoftArticleContainer = {} as FoodsoftArticleContainer;
 		articles.forEach((tmp: FoodsoftArticleGeneric) => {
-			const catName = tmp.category.value;
-			let update = convertedArticles[catName];
-			if (!update) {
-				// when a new category starts => insert at the top the (empty) groupField
-				const groupField = createFoodGroupField(this.useArticleType);
-				groupField.category.value = catName;
-				update = [groupField];
-			}
+			const catName = tmp.category.cValue;
+			const update = convertedArticles[catName] ?? [];
 			update.push(tmp);
 			convertedArticles[catName] = update;
 		});
