@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import {
+	FSTablePos,
 	FoodsoftArticleContainer,
 	FoodsoftArticleGeneric,
 	FoodsoftArticleGerman,
@@ -14,9 +15,32 @@ import { compare } from 'src/app/utils/util_collection';
 	providedIn: 'root',
 })
 export class FoodsoftArticleService {
-	useArticleType: FoodsoftArticleGeneric = FoodsoftArticleGerman;
+	private useArticleType: FoodsoftArticleGeneric = FoodsoftArticleGerman;
 
 	constructor() {}
+
+	getUsedArticleType(): FoodsoftArticleGeneric {
+		return this.useArticleType;
+	}
+	getDisplayColumn(useCategory: boolean): string[] {
+		let ret = Object.keys(this.useArticleType).map((key) => {
+			if (useCategory && this.useArticleType[key].isGroupField) {
+				return '';
+			} else {
+				return key;
+			}
+		});
+		ret = ret.filter((keys) => !!keys.length);
+		ret.sort((key1, key2) => {
+			if (FSTablePos[key1] < FSTablePos[key2]) {
+				return -1;
+			} else if (FSTablePos[key1] > FSTablePos[key2]) {
+				return 1;
+			}
+			return 0;
+		});
+		return ret;
+	}
 
 	getListOfArticles4Table(input: FoodsoftArticleContainer): FoodsoftArticleGeneric[] {
 		const ret = [] as FoodsoftArticleGeneric[];
@@ -53,14 +77,19 @@ export class FoodsoftArticleService {
 		const ret = createFoodArticle(this.useArticleType);
 		Object.keys(this.useArticleType).forEach((key) => {
 			const val = row[this.useArticleType[key].cPos];
-			ret[key].cValue = val;
+			if (typeof this.useArticleType[key].cValue === 'boolean') {
+				// convert into boolean value
+				ret[key].cValue = !!val;
+			} else {
+				ret[key].cValue = val;
+			}
 		});
 		return ret;
 	}
 
 	private fillValues(input: FoodsoftArticleGeneric[]): void {
 		input.forEach((tmp: FoodsoftArticleGeneric) => {
-			tmp.gross.cValue = tmp.net.cValue + (1 + tmp.vat.cValue / 100);
+			tmp.gross.cValue = Math.round(tmp.net.cValue + (1 + tmp.vat.cValue / 100) * 100) / 100;
 		});
 	}
 

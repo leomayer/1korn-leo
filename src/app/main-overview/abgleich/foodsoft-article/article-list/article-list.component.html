@@ -1,85 +1,18 @@
-<table
-	mat-table
-	class="mat-elevation-z8"
-	matSort
-	matSortActive="Name"
-	matSortDirection="asc"
-	matSortDisableClear
-	[dataSource]="dataSource"
-	[trackBy]="trackByFn"
->
-	<!-- Column: Verfügbar -->
-	<ng-container matColumnDef="verf">
-		<th *matHeaderCellDef mat-header-cell i18n="@@available">Available</th>
-		<td *matCellDef="let row" mat-cell class="center">
-			<mat-checkbox [(ngModel)]="row.isViewer" (change)="updateCheckboxes('available')"></mat-checkbox>
-		</td>
-	</ng-container>
-	<!-- Column: ID bzw. Bestellummer -->
-	<ng-container matColumnDef="id">
-		<th *matHeaderCellDef mat-header-cell mat-sort-header i18n="@@order-no">Order No</th>
-		<td *matCellDef="let row" mat-cell class="right">
-			{{ row.id.cValue }}
-		</td>
-	</ng-container>
+{{ displayedColumns | json }}
+<table mat-table class="mat-elevation-z8" [dataSource]="dataSource">
+	<ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
+		<th *matHeaderCellDef mat-header-cell>
+			<span>{{ useArticleType[col]?.cName }}</span>
+		</th>
+		<td *matCellDef="let cell" mat-cell>
+			<ng-container [ngSwitch]="checkType(cell[col])">
+				<ng-container *ngSwitchCase="'boolean'">
+					<mat-checkbox [(ngModel)]="cell[col].cValue"></mat-checkbox>
+				</ng-container>
 
-	<!-- Column: Name -->
-	<ng-container matColumnDef="Name">
-		<th *matHeaderCellDef mat-header-cell mat-sort-header i18n="@@name">Name</th>
-		<td *matCellDef="let row" mat-cell>
-			{{ row.name.cValue }}
+				<span *ngSwitchDefault>{{ cell[col]?.cValue }}</span>
+			</ng-container>
 		</td>
-	</ng-container>
-	<!-- Column: Gebindegröße -->
-	<ng-container matColumnDef="Gebinde">
-		<th *matHeaderCellDef mat-header-cell i18n="@@size">Size</th>
-		<td *matCellDef="let row" mat-cell class="center">
-			{{ row.Gebinde }}
-		</td>
-	</ng-container>
-	<!-- Column: Einheit -->
-	<ng-container matColumnDef="Einheit">
-		<th *matHeaderCellDef mat-header-cell mat-sort-header i18n="@@quantiy">Quantity</th>
-		<td *matCellDef="let row" mat-cell>
-			{{ row.Einheit }}
-		</td>
-	</ng-container>
-	<!-- Column: Produzent -->
-	<ng-container matColumnDef="Produzent">
-		<th *matHeaderCellDef mat-header-cell mat-sort-header i18n="@@producer">Producer</th>
-		<td *matCellDef="let row" mat-cell>
-			{{ row.producer.cValue }}
-		</td>
-	</ng-container>
-	<!-- Column: Pfand -->
-	<ng-container matColumnDef="Pfand">
-		<th *matHeaderCellDef mat-header-cell i18n="@@deposit">Deposit in €</th>
-		<td *matCellDef="let row" mat-cell class="center">
-			{{ row.Pfand }}
-		</td>
-	</ng-container>
-
-	<!-- Column: Notiz -->
-	<ng-container matColumnDef="Notiz">
-		<th *matHeaderCellDef mat-header-cell mat-sort-header i18n="@@note">Notiz</th>
-		<td *matCellDef="let row" mat-cell>
-			{{ row.Notiz }}
-		</td>
-	</ng-container>
-	<!-- Column: Nettopreis -->
-	<ng-container matColumnDef="Nettopreis">
-		<th *matHeaderCellDef mat-header-cell mat-sort-header i18n="@@nett-price">Nett price in €</th>
-		<td *matCellDef="let row" mat-cell class="right">{{ row.Nettopreis | number : '1.2-2' : 'de' }}</td>
-	</ng-container>
-	<!-- Column: MwSt -->
-	<ng-container matColumnDef="MwSt">
-		<th *matHeaderCellDef mat-header-cell mat-sort-header i18n="@@VAT">VAT</th>
-		<td *matCellDef="let row" mat-cell class="center">{{ row.MwSt }}</td>
-	</ng-container>
-	<!-- Column: Brutto -->
-	<ng-container matColumnDef="Brutto">
-		<th *matHeaderCellDef mat-header-cell mat-sort-header i18n="@@gross-price">Gross price in €</th>
-		<td *matCellDef="let row" mat-cell class="right">{{ row.Brutto | number : '1.2-2' : 'de' }}</td>
 	</ng-container>
 
 	<!-- Group header -->
@@ -88,16 +21,8 @@
 			<strong>{{ groupBy.category.cValue }}</strong>
 		</td>
 	</ng-container>
-	<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
-	<!--	 	<tr *matHeaderRowDef="objKeys(displayedCheckboxes); sticky: true" mat-header-row class="header-group-cell"></tr>
-	-->
 
-	<tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+	<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
 	<tr *matRowDef="let row; columns: ['groupHeader']; when: isGroup" mat-row></tr>
-	<!--	<tr *matRowDef="let row; columns: displayedColumns" mat-row></tr> -->
-	<tr *matNoDataRow class="mat-row">
-		<td class="mat-cell" [attr.colspan]="displayedColumns.length" i18n="@@no-data-matching-column-names">
-			No data matching column names
-		</td>
-	</tr>
+	<tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
 </table>

@@ -1,10 +1,11 @@
 @use '@angular/material' as mat;
 @import '../../../../../styles_angular_material.scss';
 
-.center,
-th {
+th.mat-header-cell {
 	justify-content: center;
+	hyphens: manual;
 	text-align: center;
+	white-space: break-spaces;
 }
 
 .group {
@@ -15,23 +16,44 @@ th {
 	justify-content: center;
 	text-align: end;
 }
-.mat-column-verf {
+.mat-column-available {
+	justify-content: center;
 	padding-right: 8px;
 	max-width: 2.4em;
+	text-align: center;
 	word-break: break-all;
 }
-.mat-column-Gebinde {
+.mat-column-size {
 	padding-right: 8px;
+	text-align: center;
 }
-.mat-column-Name {
+th.mat-column-size {
+	max-width: 3em;
+}
+.mat-column-id {
+	justify-content: center;
+	padding-right: 8px;
+	text-align: end;
+}
+.mat-column-note {
+	padding-right: 8px;
+	padding-left: 8px;
+}
+.mat-column-name {
 	padding-left: 8px;
 	white-space: break-spaces;
 }
-.mat-column-Einheit {
+.mat-column-unit {
 	max-width: 6em;
+	text-align: end;
 	white-space: break-spaces;
 }
-.mat-column-Pfand {
+th.mat-column-unit {
+	text-align: center;
+}
+
+.mat-column-deposit {
+	justify-content: center;
 	max-width: 6em;
 	text-align: center;
 	white-space: break-spaces;

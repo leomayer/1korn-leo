@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { FoodsoftArticleContainer, FoodsoftArticleGeneric } from '../foodsoft-article';
+import { FoodFileColStructure, FoodsoftArticleContainer, FoodsoftArticleGeneric } from '../foodsoft-article';
 import { FoodsoftArticleService } from '../foodsoft-article.service';
 
 import { Subscription } from 'rxjs';
@@ -22,6 +22,9 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 	filterText = '';
 
 	lstOfSubscriptions = new Subscription();
+	listOfArticles!: FoodsoftArticleGeneric[];
+
+	useArticleType: FoodsoftArticleGeneric = {} as FoodsoftArticleGeneric;
 
 	constructor(private stateHolder: StateHolderService, private foodArticleService: FoodsoftArticleService) {
 		this.displayedColumns = [
@@ -48,9 +51,11 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 		);
 	}
 	loadList(container: FoodsoftArticleContainer): void {
-		const list = this.foodArticleService.getListOfArticles4Table(container);
-		console.log('list', list);
-		this.dataSource = new MatTableDataSource(list);
+		this.useArticleType = this.foodArticleService.getUsedArticleType();
+		this.displayedColumns = this.foodArticleService.getDisplayColumn(true);
+		this.listOfArticles = this.foodArticleService.getListOfArticles4Table(container);
+		console.log('list', this.listOfArticles);
+		this.dataSource = new MatTableDataSource(this.listOfArticles);
 		// returns the property of the column definition (matColumnDef) by fetching the content from the row
 		//this.dataSource.sortingDataAccessor = (rowItem, property) => rowItem[property];
 		// here we override the sortData with our custom sort function
@@ -58,10 +63,6 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
 		this.dataSource.sort = this.sort;
 		this.dataSource.filterPredicate = this.filterPredicate;
-	}
-
-	updateCheckboxes(colName?: string): void {
-		console.log('change colName' + colName);
 	}
 
 	sortData() {
@@ -131,5 +132,9 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
 	trackByFn(index: number, article: FoodsoftArticleGeneric) {
 		return article.id.cValue;
+	}
+
+	checkType(cell: FoodFileColStructure<unknown>): string {
+		return typeof cell?.cValue;
 	}
 }

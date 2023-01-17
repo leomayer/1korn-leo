@@ -24,6 +24,22 @@ export interface FoodsoftArticleContainer {
 export interface FoodsoftArticleCategory {
 	category: string;
 }
+// order of columns in table
+export enum FSTablePos {
+	available = 0,
+	name,
+	id,
+	producer,
+	note,
+	unit,
+	size,
+	origin,
+	category,
+	net,
+	vat,
+	gross,
+	deposit,
+}
 
 export const FoodsoftArticleGerman: FoodsoftArticleGeneric = {
 	/* fields with addtional paramter */
@@ -32,16 +48,15 @@ export const FoodsoftArticleGerman: FoodsoftArticleGeneric = {
 	id: { cName: 'Bestellnummer', sortOrder: 2 } as FoodFileColStructure<number>, //  Zwischenüberschrift => isGroupingField=true
 	gross: { cName: 'Bruttopreis', optional: true } as FoodFileColStructure<number>,
 	/* fields with name only */
-	available: { cName: 'verf' } as FoodFileColStructure<boolean>, // if the article is available
+	available: { cName: 'verf', cValue: false } as FoodFileColStructure<boolean>, // if the article is available
 	producer: { cName: 'Produzent' } as FoodFileColStructure<string>,
 	note: { cName: 'Notiz' } as FoodFileColStructure<string>,
-	unit: { cName: 'Produzent' } as FoodFileColStructure<string>, //  Wenn Zwischenüberschrift ==> undefined
-	quantity: { cName: 'Gebindegröße' } as FoodFileColStructure<number>,
-	size: { cName: 'Gebinde' } as FoodFileColStructure<number>,
+	unit: { cName: 'Einheit' } as FoodFileColStructure<string>, //  Wenn Zwischenüberschrift ==> undefined
+	size: { cName: 'Gebindegröße' } as FoodFileColStructure<number>,
 	origin: { cName: 'Herkunft' } as FoodFileColStructure<string>, // Herkunft
 	net: { cName: 'Nettopreis' } as FoodFileColStructure<number>,
 	vat: { cName: 'MwSt' } as FoodFileColStructure<number>,
-	deposit: { cName: 'Pfand' } as FoodFileColStructure<number>,
+	deposit: { cName: 'Pfand in €' } as FoodFileColStructure<number>,
 };
 
 export interface FoodsoftArticleGeneric {
@@ -51,7 +66,6 @@ export interface FoodsoftArticleGeneric {
 	producer: FoodFileColStructure<string>;
 	note: FoodFileColStructure<string>;
 	unit: FoodFileColStructure<string>; //  Wenn Zwischenüberschrift ==> undefined
-	quantity: FoodFileColStructure<number>; // Wert aus CSV-Tabelle
 	size: FoodFileColStructure<number>;
 	origin: FoodFileColStructure<string>; // Herkunft
 	category: FoodFileColStructure<string>; // Category - grouping identifier
