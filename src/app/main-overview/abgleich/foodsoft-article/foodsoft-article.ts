@@ -45,18 +45,18 @@ export const FoodsoftArticleGerman: FoodsoftArticleGeneric = {
 	/* fields with addtional paramter */
 	category: { cName: 'Kategorie', isGroupField: true } as FoodFileColStructure<string>, // Category - grouping identifier
 	name: { cName: 'Name', sortOrder: 1 } as FoodFileColStructure<string>,
-	id: { cName: 'Bestellnummer', sortOrder: 2 } as FoodFileColStructure<number>, //  Zwischenüberschrift => isGroupingField=true
-	gross: { cName: 'Bruttopreis', optional: true } as FoodFileColStructure<number>,
+	id: { cName: 'Bestellnummer', tabHeader: 'Bestell-nummer', sortOrder: 2 } as FoodFileColStructure<number>, //  Zwischenüberschrift => isGroupingField=true
+	gross: { cName: 'Bruttopreis', tabHeader: 'Brutto-preis', optional: true } as FoodFileColStructure<number>,
 	/* fields with name only */
 	available: { cName: 'verf', cValue: false } as FoodFileColStructure<boolean>, // if the article is available
 	producer: { cName: 'Produzent' } as FoodFileColStructure<string>,
 	note: { cName: 'Notiz' } as FoodFileColStructure<string>,
 	unit: { cName: 'Einheit' } as FoodFileColStructure<string>, //  Wenn Zwischenüberschrift ==> undefined
-	size: { cName: 'Gebindegröße' } as FoodFileColStructure<number>,
+	size: { cName: 'Gebindegröße', tabHeader: 'Gebinde-größe' } as FoodFileColStructure<number>,
 	origin: { cName: 'Herkunft' } as FoodFileColStructure<string>, // Herkunft
-	net: { cName: 'Nettopreis' } as FoodFileColStructure<number>,
+	net: { cName: 'Nettopreis', tabHeader: 'Netto-preis' } as FoodFileColStructure<number>,
 	vat: { cName: 'MwSt' } as FoodFileColStructure<number>,
-	deposit: { cName: 'Pfand in €' } as FoodFileColStructure<number>,
+	deposit: { cName: 'Pfand', tabHeader: 'Pfand in €' } as FoodFileColStructure<number>,
 };
 
 export interface FoodsoftArticleGeneric {
@@ -77,8 +77,9 @@ export interface FoodsoftArticleGeneric {
 
 export interface FoodFileColStructure<T> {
 	cValue: T;
-	cName: string;
+	cName: string; //name in the import  structure
 	cPos: number;
+	tabHeader: string; // header in the table for display
 	optional: boolean; // flag to decide if the field is required for the import
 	isGroupField: boolean; // Marker if field is the one used for grouping (==> automatically sorted!)
 	sortOrder: number; // 0 or undefined: field not used, 1: field used as first compare (after grouping field), 2: ... second
