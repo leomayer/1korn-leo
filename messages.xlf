@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="no-data-loaded" datatype="html">
+        <source>No data loaded</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/article-list/article-list.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fetch-error" datatype="html">
+        <source>Fetch error</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/foodsoft-article.component.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cannot-load-file" datatype="html">
+        <source>Cannot load file</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/foodsoft-article.component.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error-while-load" datatype="html">
+        <source>Generic error - see console</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/foodsoft-article.component.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

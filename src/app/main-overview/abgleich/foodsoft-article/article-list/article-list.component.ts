@@ -22,7 +22,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 	filterText = '';
 
 	lstOfSubscriptions = new Subscription();
-	listOfArticles!: FoodsoftArticleGeneric[];
+	listOfArticles: FoodsoftArticleGeneric[] = [];
 
 	useArticleType: FoodsoftArticleGeneric = {} as FoodsoftArticleGeneric;
 

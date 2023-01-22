@@ -4,8 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4641",
+    "start-de": "ng serve --browser-target 1korn-leo:build:development,de --port 4642",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "extract-i18n": "ng extract-i18n && npm run merge-i18n",
+    "merge-i18n": "pushd src/i18n/ && for FILE in *.[a-z][a-z].xlf ; do pomerge -t messages.xlf -i $FILE -o $FILE.new.xlf && mv $FILE.new.xlf $FILE && FILE_LANG=`echo \"$FILE\" | sed -e 's/messages.\\([a-z]*\\).*/\\1/'` && sed -i $FILE -e \"s/\\(original=\\\"ng2.template\\\"\\)>/\\1 target-language=\\\"$FILE_LANG\\\">/\"; done && popd",
     "prettier": "prettier --write \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
     "prettier-watch": "onchange \"./{src,e2e}/**/*.{ts,js,html,scss}\" -- prettier --write  --ignore-unknown {{changed}}",
     "test": "ng test",

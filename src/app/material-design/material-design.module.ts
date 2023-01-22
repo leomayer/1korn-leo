@@ -48,8 +48,10 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MessageComponentComponent } from './message-component/message-component.component';
+
 @NgModule({
-	declarations: [],
+	declarations: [MessageComponentComponent],
 	imports: [
 		CommonModule,
 		BrowserModule,
@@ -161,6 +163,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		CdkColumnDef,
 		// datepicker als UTC
 		{ provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+		MessageComponentComponent,
 	],
 })
 export class MaterialDesignModule {}

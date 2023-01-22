@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@import 'styles_angular_material.scss';
+
+.warn-info {
+	margin: 12px;
+	border: 1px solid mat.get-color-from-palette($lightIndigo, 500);
+	border-radius: 5px;
+	background: rgba(black, 0.067);
+	padding: 15px;
+	max-width: unset;
+}

@@ -1,7 +1,13 @@
 import { FoodFileColStructure } from '../main-overview/abgleich/foodsoft-article/foodsoft-article';
 
 export const getAssetFile = async (pathInAssetFolder: string, name: string, type: string): Promise<File> => {
-	const response = await fetch(`../assets/${pathInAssetFolder}`);
+	const file2Load = `../assets/${pathInAssetFolder}`;
+	const response = await fetch(file2Load);
+	if (!response.ok) {
+		const e = new Error('fetch');
+		e.stack = response.status + '';
+		throw e;
+	}
 	const data = await response.blob();
 	const metadata = {
 		type,

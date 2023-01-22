@@ -3,8 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FoodsoftArticle, FoodsoftArticleContainer, FoodsoftCategory } from './foodsoft-article';
 import { FoodsoftArticleService } from './foodsoft-article.service';
 
+import { MessageComponentComponent } from 'src/app/material-design/message-component/message-component.component';
+import { MessageData } from 'src/app/material-design/message-component/messageData';
 import { StateHolderService } from 'src/app/utils/state-holder.service';
 import { getAssetFile } from 'src/app/utils/util_collection';
+import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -13,70 +16,43 @@ import * as XLSX from 'xlsx';
 	styleUrls: ['./foodsoft-article.component.scss'],
 })
 export class FoodsoftArticleComponent implements OnInit {
-	fileName = 'articles_ziege.csv';
+	//	fileName = 'articles_ziege.csv';
+	fileName = '';
 
 	reader: FileReader = new FileReader();
 
 	convertData!: FoodsoftArticleContainer;
-	constructor(private stateHolder: StateHolderService, private foodArticleService: FoodsoftArticleService) {}
+	constructor(
+		private stateHolder: StateHolderService,
+		private foodArticleService: FoodsoftArticleService,
+		private msgDisplay: MessageComponentComponent,
+	) {}
 
 	async ngOnInit(): Promise<void> {
-		this.initReader();
 		this.initReaderGeneric();
-		await getAssetFile(this.fileName, this.fileName, 'text/csv').then((file) => {
-			this.reader.readAsBinaryString(file);
-		});
-	}
-
-	initReader() {
-		this.reader.onload = (e: ProgressEvent) => {
-			/* read workbook */
-			const bstr: string = (e?.target as FileReader).result as string;
-
-			const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary', codepage: 65001 });
-
-			/* grab first sheet */
-			const wsname: string = wb.SheetNames[0] as string;
-			const ws: XLSX.WorkSheet = wb.Sheets[wsname] as XLSX.WorkSheet;
-
-			/* save data */
-			const data: FoodsoftArticle[] = XLSX.utils.sheet_to_json(ws);
-			const retData = [] as FoodsoftArticle[];
-
-			if (data?.length && data[0]?.Bestellnummer) {
-				const convertData = {} as FoodsoftCategory;
-				data.sort((a, b) => {
-					let chk1 = a.Kategorie.localeCompare(b.Kategorie);
-					if (!chk1) {
-						chk1 = a.Name.localeCompare(b.Name);
-					}
-					if (!chk1) {
-						chk1 = (a.Bestellnummer ? a.Bestellnummer : 0) > (b.Bestellnummer ? b.Bestellnummer : 0) ? 1 : -1;
-					}
-
-					return chk1;
+		if (!environment.production) {
+			try {
+				await getAssetFile(this.fileName, this.fileName, 'text/csv').then((file) => {
+					this.reader.readAsBinaryString(file);
 				});
-				data.forEach((tmp: FoodsoftArticle) => {
-					tmp.Gebinde = tmp.Gebindegröße;
-					tmp.Brutto = tmp.Nettopreis * (1 + tmp.MwSt / 100);
-					let update = convertData[tmp.Kategorie];
-					if (!update) {
-						const initData = {} as FoodsoftArticle;
-						initData.Kategorie = tmp.Kategorie;
-						update = [initData];
+			} catch (e: unknown) {
+				if (e instanceof Error) {
+					const msg = {} as MessageData;
+					msg.title = $localize`:@@fetch-error:Fetch error`;
+					if (e.stack === '404') {
+						msg.content = $localize`:@@cannot-load-file:Cannot load file` + `: "${this.fileName}"`;
+					} else {
+						msg.content = $localize`:@@error-while-load:Generic error - see console`;
+						console.error(e);
 					}
-					update.push(tmp);
-					convertData[tmp.Kategorie] = update;
-				});
-
-				Object.keys(convertData).forEach((key: string) => {
-					convertData[key]?.forEach((el) => retData.push(el));
-				});
+					this.msgDisplay.displayMessage(msg);
+				} else {
+					console.log(e);
+				}
 			}
-			// submit the array anyway
-			//	this.stateHolder.articleFoodsoftLoaded.next(retData);
-		};
+		}
 	}
+
 	initReaderGeneric() {
 		this.reader.onload = (e: ProgressEvent) => {
 			/* read workbook */
@@ -94,8 +70,6 @@ export class FoodsoftArticleComponent implements OnInit {
 			this.convertData = convertData;
 			// submit the array anyway
 			this.stateHolder.articleFoodsoftLoaded.next(convertData);
-
-			console.log('Genric results:', convertData);
 		};
 	}
 
