@@ -74,7 +74,6 @@ export class FoodsoftArticleComponent implements OnInit {
 	}
 
 	onFileChange(evt: Event) {
-		console.log(evt.target);
 		if (evt?.target) {
 			/* wire up file reader */
 			const target = evt.target as HTMLInputElement;
