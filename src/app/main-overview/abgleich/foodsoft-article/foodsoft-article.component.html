@@ -1,5 +1,9 @@
 <p>
-	<input (change)="onFileChange($event)" type="file" multiple="false" />
-	Loaded file '{{ fileName }}'
+	<button mat-raised-button (click)="fileInput.click()" type="button" i18n="@@choose-file">Choose File</button>
+	<input #fileInput id="file" (change)="onFileChange($event)" hidden type="file" multiple="false" />
+	<ng-container *ngIf="fileName?.trim()?.length">
+		<span i18n="@@loaded-file"> Loaded file </span>
+		<span> '{{ fileName }}'</span>
+	</ng-container>
 </p>
 <app-article-list></app-article-list>

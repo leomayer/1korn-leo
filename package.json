@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4641",
-    "start-de": "ng serve --browser-target 1korn-leo:build:development,de --port 4642",
+    "start-de": "ng serve --browser-target 1korn-leo:build:de --port 4641",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "extract-i18n": "ng extract-i18n && npm run merge-i18n",
@@ -12,7 +12,7 @@
     "prettier": "prettier --write \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
     "prettier-watch": "onchange \"./{src,e2e}/**/*.{ts,js,html,scss}\" -- prettier --write  --ignore-unknown {{changed}}",
     "test": "ng test",
-    "start-1korn": "npm run start & npm run prettier-watch",
+    "start-1korn": "npm run start-de & npm run prettier-watch",
     "github-pages": "ng deploy --base-href=/1korn-leo/"
   },
   "private": true,

@@ -44,6 +44,12 @@
             "scripts": []
           },
           "configurations": {
+          "de": {
+							"localize": [
+								"de"
+							],
+							"baseHref": "/1korn-leo/de/"
+						},
             "production": {
               "budgets": [
                 {
@@ -84,14 +90,19 @@
             },
             "development": {
               "browserTarget": "1korn-leo:build:development"
+            },
+            "de": {
+              "browserTarget": "1korn-leo:build:de"
             }
+            
           },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "1korn-leo:build"
+            "browserTarget": "1korn-leo:build",
+            "outputPath": "src/i18n"
           }
         },
         "test": {
