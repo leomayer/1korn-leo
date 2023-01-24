@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
-import { FoodsoftArticle, FoodsoftArticleContainer, FoodsoftCategory } from './foodsoft-article';
+import { FoodsoftArticleContainer, FoodsoftCategory } from './foodsoft-article';
 import { FoodsoftArticleService } from './foodsoft-article.service';
 
 import { MessageComponentComponent } from 'src/app/material-design/message-component/message-component.component';
@@ -14,10 +14,12 @@ import * as XLSX from 'xlsx';
 	selector: 'app-foodsoft-article',
 	templateUrl: './foodsoft-article.component.html',
 	styleUrls: ['./foodsoft-article.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FoodsoftArticleComponent implements OnInit {
-	//	fileName = 'articles_ziege.csv';
-	fileName = '';
+	fileName = 'articles_ziege.csv';
+	//fileName = '';
+	loadSuccess: -1 | 0 | 1 = -1;
 
 	reader: FileReader = new FileReader();
 
@@ -26,6 +28,7 @@ export class FoodsoftArticleComponent implements OnInit {
 		private stateHolder: StateHolderService,
 		private foodArticleService: FoodsoftArticleService,
 		private msgDisplay: MessageComponentComponent,
+		private cd: ChangeDetectorRef,
 	) {}
 
 	async ngOnInit(): Promise<void> {
@@ -55,21 +58,28 @@ export class FoodsoftArticleComponent implements OnInit {
 
 	initReaderGeneric() {
 		this.reader.onload = (e: ProgressEvent) => {
-			/* read workbook */
-			const bstr: string = (e?.target as FileReader).result as string;
+			try {
+				/* read workbook */
+				const bstr: string = (e?.target as FileReader).result as string;
 
-			const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary', codepage: 65001 });
+				const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary', codepage: 65001 });
 
-			/* grab first sheet */
-			const wsname: string = wb.SheetNames[0] as string;
-			const ws: XLSX.WorkSheet = wb.Sheets[wsname] as XLSX.WorkSheet;
+				/* grab first sheet */
+				const wsname: string = wb.SheetNames[0] as string;
+				const ws: XLSX.WorkSheet = wb.Sheets[wsname] as XLSX.WorkSheet;
 
-			/* save data */
-			const data: unknown[][] = XLSX.utils.sheet_to_json(ws, { header: 1 });
-			const convertData = this.foodArticleService.convertCSVIntoContainer(data);
-			this.convertData = convertData;
-			// submit the array anyway
-			this.stateHolder.articleFoodsoftLoaded.next(convertData);
+				/* save data */
+				const data: unknown[][] = XLSX.utils.sheet_to_json(ws, { header: 1 });
+				const convertData = this.foodArticleService.convertCSVIntoContainer(data);
+				this.convertData = convertData;
+				// submit the array anyway
+				this.loadSuccess = 1;
+				setTimeout(() => this.stateHolder.articleFoodsoftLoaded.next(convertData), 10);
+			} catch (e1: unknown) {
+				this.loadSuccess = 0;
+				console.error(e1);
+			}
+			this.cd.detectChanges();
 		};
 	}
 

@@ -1,0 +1,42 @@
+@use '@angular/material' as mat;
+@import '../../../../styles_angular_material.scss';
+
+:host {
+	display: flex;
+	height: 100%;
+}
+.container {
+	display: grid;
+	grid-template-rows: min-content 1fr;
+	grid-template-columns: min-content auto 1fr;
+	grid-template-areas:
+		'input-btn input-info filename-info'
+		'article-list article-list article-list';
+	grid-auto-flow: row;
+	gap: 8px 8px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	width: 100%;
+}
+
+.article-list {
+	grid-area: article-list;
+}
+
+.input-btn {
+	grid-area: input-btn;
+	align-self: center;
+}
+
+.input-info {
+	grid-area: input-info;
+	align-self: center;
+}
+.filename-info {
+	grid-area: filename-info;
+	align-self: center;
+}
+.failed-loading {
+	background-color: mat.get-color-from-palette($redPalette, A100);
+	padding-right: 8px;
+}

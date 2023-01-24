@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -13,6 +13,7 @@ import { compare } from 'src/app/utils/util_collection';
 	selector: 'app-article-list',
 	templateUrl: './article-list.component.html',
 	styleUrls: ['./article-list.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleListComponent implements OnInit, OnDestroy {
 	@ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -26,7 +27,12 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
 	useArticleType: FoodsoftArticleGeneric = {} as FoodsoftArticleGeneric;
 
-	constructor(private stateHolder: StateHolderService, private foodArticleService: FoodsoftArticleService) {
+	constructor(
+		private stateHolder: StateHolderService,
+		private foodArticleService: FoodsoftArticleService,
+
+		private cd: ChangeDetectorRef,
+	) {
 		this.displayedColumns = [
 			'verf',
 			'id',
@@ -63,6 +69,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
 		this.dataSource.sort = this.sort;
 		this.dataSource.filterPredicate = this.filterPredicate;
+		this.cd.detectChanges();
 	}
 
 	sortData() {

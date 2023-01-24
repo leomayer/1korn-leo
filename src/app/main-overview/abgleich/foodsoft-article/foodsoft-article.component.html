@@ -1,9 +1,26 @@
-<p>
-	<button mat-raised-button (click)="fileInput.click()" type="button" i18n="@@choose-file">Choose File…</button>
-	<input #fileInput id="file" (change)="onFileChange($event)" hidden type="file" multiple="false" />
-	<ng-container *ngIf="fileName?.trim()?.length">
-		<span i18n="@@loaded-file"> Loaded file </span>
-		<span> '{{ fileName }}'</span>
+<div class="container">
+	<div class="input-btn">
+		<button mat-raised-button (click)="fileInput.click()" type="button" i18n="@@choose-file">Choose File…</button>
+		<input #fileInput id="file" (change)="onFileChange($event)" hidden type="file" multiple="false" />
+	</div>
+	<ng-container *ngIf="loadSuccess >= 0">
+		<div class="input-info" [ngClass]="{ 'failed-loading': !loadSuccess }">
+			<ng-container *ngIf="fileName?.trim()?.length">
+				<ng-container [ngSwitch]="loadSuccess">
+					<ng-container *ngSwitchCase="1">
+						<span i18n="@@loaded-file"> Loaded file </span>
+					</ng-container>
+					<ng-container *ngSwitchCase="0">
+						<span i18n="@@failed-loading-file">Failed loading file </span>
+					</ng-container>
+				</ng-container>
+			</ng-container>
+		</div>
+		<div class="filename-info">
+			<span> '{{ fileName }}'</span>
+		</div>
 	</ng-container>
-</p>
-<app-article-list></app-article-list>
+	<div class="article-list">
+		<app-article-list></app-article-list>
+	</div>
+</div>
