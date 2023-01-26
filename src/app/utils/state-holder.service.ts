@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 })
 export class StateHolderService {
 	articleFoodsoftLoaded = new Subject<FoodsoftArticleContainer>();
+	articleFoodsoftCheck = new Subject<FoodsoftArticleContainer>();
 
 	constructor() {}
 }

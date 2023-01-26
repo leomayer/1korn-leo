@@ -74,7 +74,7 @@ export class FoodsoftArticleComponent implements OnInit {
 				this.convertData = convertData;
 				// submit the array anyway
 				this.loadSuccess = 1;
-				setTimeout(() => this.stateHolder.articleFoodsoftLoaded.next(convertData), 10);
+				setTimeout(() => this.stateHolder.articleFoodsoftCheck.next(convertData), 10);
 			} catch (e1: unknown) {
 				this.loadSuccess = 0;
 				console.error(e1);
