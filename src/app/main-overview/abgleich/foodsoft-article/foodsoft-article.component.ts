@@ -23,10 +23,8 @@ export class FoodsoftArticleComponent implements OnInit {
 
 	reader: FileReader = new FileReader();
 
-	convertData!: FoodsoftArticleContainer;
 	constructor(
 		private stateHolder: StateHolderService,
-		private foodArticleService: FoodsoftArticleService,
 		private msgDisplay: MessageComponentComponent,
 		private cd: ChangeDetectorRef,
 	) {}
@@ -70,11 +68,9 @@ export class FoodsoftArticleComponent implements OnInit {
 
 				/* save data */
 				const data: unknown[][] = XLSX.utils.sheet_to_json(ws, { header: 1 });
-				const convertData = this.foodArticleService.convertCSVIntoContainer(data);
-				this.convertData = convertData;
+				setTimeout(() => this.stateHolder.articleFoodsoftCheck.next(data), 10);
 				// submit the array anyway
 				this.loadSuccess = 1;
-				setTimeout(() => this.stateHolder.articleFoodsoftCheck.next(convertData), 10);
 			} catch (e1: unknown) {
 				this.loadSuccess = 0;
 				console.error(e1);

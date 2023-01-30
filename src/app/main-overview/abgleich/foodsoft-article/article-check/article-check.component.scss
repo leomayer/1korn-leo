@@ -1,0 +1,10 @@
+table {
+	width: 100%;
+}
+th.mat-header-cell,
+td.mat-cell {
+	justify-content: center;
+	hyphens: manual;
+	text-align: center;
+	white-space: break-spaces;
+}

@@ -11,6 +11,7 @@
 	grid-template-columns: min-content auto 1fr;
 	grid-template-areas:
 		'input-btn input-info filename-info'
+		'article-missing article-missing article-missing'
 		'article-list article-list article-list';
 	grid-auto-flow: row;
 	gap: 8px 8px;
@@ -21,6 +22,9 @@
 
 .article-list {
 	grid-area: article-list;
+}
+.article-missing {
+	grid-area: article-missing;
 }
 
 .input-btn {

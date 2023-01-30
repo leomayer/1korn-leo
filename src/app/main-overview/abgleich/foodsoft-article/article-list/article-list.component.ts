@@ -33,19 +33,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
 		private cd: ChangeDetectorRef,
 	) {
-		this.displayedColumns = [
-			'verf',
-			'id',
-			'Name',
-			'Produzent',
-			'Gebinde',
-			'Einheit',
-			'Pfand',
-			'Notiz',
-			'Nettopreis',
-			'MwSt',
-			'Brutto',
-		];
+		this.displayedColumns = [];
 	}
 	ngOnDestroy(): void {
 		this.lstOfSubscriptions.unsubscribe();

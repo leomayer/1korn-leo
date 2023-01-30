@@ -29,6 +29,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "baseHref": "/1korn-leo/en/",
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -85,9 +86,6 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "browserTarget": "1korn-leo:build:production"
-            },
             "development": {
               "browserTarget": "1korn-leo:build:development"
             },

@@ -67,7 +67,7 @@ export class FoodsoftArticleService {
 		return this.convertIntoContainer(sortedData);
 	}
 
-	private fillFirstRow(firstRow: string[]): void {
+	public fillFirstRow(firstRow: string[]): void {
 		Object.keys(this.useArticleType).forEach((key) => {
 			this.useArticleType[key].cPos = firstRow.indexOf(this.useArticleType[key].cName);
 		});
