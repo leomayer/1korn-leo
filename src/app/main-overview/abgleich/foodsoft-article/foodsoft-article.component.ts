@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { FoodsoftArticleContainer, FoodsoftCategory } from './foodsoft-article';
-import { FoodsoftArticleService } from './foodsoft-article.service';
 
 import { MessageComponentComponent } from 'src/app/material-design/message-component/message-component.component';
 import { MessageData } from 'src/app/material-design/message-component/messageData';
