@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 @import '../../../../../styles_angular_material.scss';
 
-th.mat-header-cell {
+th.mat-mdc-header-cell {
 	justify-content: center;
 	hyphens: manual;
 	text-align: center;
@@ -19,7 +19,7 @@ th.mat-header-cell {
 .mat-column-available {
 	justify-content: center;
 	padding-right: 8px;
-	max-width: 2.4em;
+	max-width: 3.4em;
 	text-align: center;
 	word-break: break-all;
 }

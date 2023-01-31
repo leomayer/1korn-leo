@@ -38,19 +38,7 @@ export class FoodsoftArticleComponent implements OnInit {
 					this.reader.readAsBinaryString(file);
 				});
 			} catch (e: unknown) {
-				if (e instanceof Error) {
-					const msg = {} as MessageData;
-					msg.title = $localize`:@@fetch-error:Fetch error`;
-					if (e.stack === '404') {
-						msg.content = $localize`:@@cannot-load-file:Cannot load file` + `: "${this.fileName}"`;
-					} else {
-						msg.content = $localize`:@@error-while-load:Generic error - see console`;
-						console.error(e);
-					}
-					this.msgDisplay.displayMessage(msg);
-				} else {
-					console.log(e);
-				}
+				this.displayError(e);
 			}
 		}
 	}
@@ -75,8 +63,8 @@ export class FoodsoftArticleComponent implements OnInit {
 				this.loadSuccess = 1;
 			} catch (e1: unknown) {
 				this.loadSuccess = 0;
-				console.error(e1);
 				this.showChecks(false);
+				this.displayError(e1);
 			}
 			this.cd.detectChanges();
 		};
@@ -103,6 +91,21 @@ export class FoodsoftArticleComponent implements OnInit {
 	showChecks(show: boolean): void {
 		this.showCheckResults = show;
 		this.cd.detectChanges();
+	}
+
+	displayError(e: unknown) {
+		if (e instanceof Error) {
+			const msg = {} as MessageData;
+			msg.title = $localize`:@@fetch-error:Fetch error`;
+			msg.content = $localize`:@@cannot-load-file:Cannot load file` + `: "${this.fileName}"`;
+			if (e.stack !== '404') {
+				msg.content = msg.content + '\n' + $localize`:@@error-while-load:Generic error - see console`;
+				console.error(e);
+			}
+			this.msgDisplay.displayMessage(msg);
+		} else {
+			console.log(e);
+		}
 	}
 
 	/**

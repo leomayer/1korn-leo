@@ -22,17 +22,19 @@
 			</div>
 		</div>
 	</ng-container>
-	<div class="button-check">
-		<ng-container *ngIf="showCheckResults; then expand; else collapse"></ng-container>
-	</div>
-	<ng-container *ngIf="showCheckResults">
-		<div class="article-missing mat-elevation-z8">
-			<app-article-check></app-article-check>
+	<ng-container *ngIf="loadSuccess > 0">
+		<div class="button-check">
+			<ng-container *ngIf="showCheckResults; then expand; else collapse"></ng-container>
+		</div>
+		<ng-container *ngIf="showCheckResults">
+			<div class="article-missing mat-elevation-z8">
+				<app-article-check></app-article-check>
+			</div>
+		</ng-container>
+		<div class="article-list">
+			<app-article-list></app-article-list>
 		</div>
 	</ng-container>
-	<div class="article-list">
-		<app-article-list></app-article-list>
-	</div>
 </div>
 <ng-template #expand>
 	<button

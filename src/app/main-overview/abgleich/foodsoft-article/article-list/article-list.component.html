@@ -1,11 +1,11 @@
 <ng-container *ngIf="!listOfArticles.length; else showTable">
-	<div class="warn-info"><span i18n="@@no-data-loaded">No data loaded</span></div>
+	<div class="warn-info"><span i18n="@@no-data-yet-loaded">No data yet loaded</span></div>
 </ng-container>
 
 <ng-template #showTable>
 	<table mat-table class="mat-elevation-z8" [dataSource]="dataSource">
 		<ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
-			<th *matHeaderCellDef mat-header-cell>
+			<th *matHeaderCellDef mat-header-cell [matTooltip]="useArticleType[col]?.cName">
 				<span>{{ useArticleType[col]?.tabHeader ?? useArticleType[col]?.cName }}</span>
 			</th>
 			<td *matCellDef="let cell" mat-cell>
@@ -14,7 +14,7 @@
 						<mat-checkbox [(ngModel)]="cell[col].cValue"></mat-checkbox>
 					</ng-container>
 
-					<span *ngSwitchDefault>{{ cell[col]?.cValue }}</span>
+					<span *ngSwitchDefault [matTooltip]="useArticleType[col]?.cName">{{ cell[col]?.cValue }}</span>
 				</ng-container>
 			</td>
 		</ng-container>
