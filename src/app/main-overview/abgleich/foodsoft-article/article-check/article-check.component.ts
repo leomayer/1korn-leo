@@ -7,6 +7,10 @@ import { FoodsoftArticleService } from '../foodsoft-article.service';
 import { Subscription } from 'rxjs';
 import { StateHolderService } from 'src/app/utils/state-holder.service';
 
+export interface ColumnValid {
+	[key: string]: boolean;
+}
+
 @Component({
 	selector: 'app-article-check',
 	templateUrl: './article-check.component.html',
@@ -15,12 +19,10 @@ import { StateHolderService } from 'src/app/utils/state-holder.service';
 export class ArticleCheckComponent implements OnInit, OnDestroy {
 	lstOfSubscriptions = new Subscription();
 	convertData!: FoodsoftArticleContainer;
-	missingHeaders: string[] = [];
 	data: unknown[][] = [];
 
 	displayedColumns!: string[];
-	dataSource!: MatTableDataSource<string>;
-	displayFields: FoodsoftArticleGeneric = {} as FoodsoftArticleGeneric;
+	dataSource!: MatTableDataSource<ColumnValid>;
 
 	constructor(
 		private stateHolder: StateHolderService,
@@ -33,41 +35,44 @@ export class ArticleCheckComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit(): void {
+		this.displayedColumns = [];
+
+		this.dataSource = new MatTableDataSource();
 		this.lstOfSubscriptions.add(
 			this.stateHolder.articleFoodsoftCheck.subscribe((container) => this.checkContainer(container)),
 		);
-		this.displayFields = this.foodArticleService.getUsedArticleType();
-
-		this.displayedColumns = Object.keys(this.foodArticleService.getUsedArticleType())
-			// return the name of the column - which is expected in the CSV file
-			.map((key2) => this.displayFields[key2].cName);
-
-		const displayRows = [] as string[];
-		//displayRows.push[...this.displayedColumns];
-		this.dataSource = new MatTableDataSource();
 	}
 	checkContainer(data: unknown[][]) {
 		this.data = data;
 		this.foodArticleService.fillFirstRow(data[0] as string[]);
-		this.missingHeaders = this.checkHeader(this.foodArticleService.getUsedArticleType());
-		if (this.missingHeaders.length) {
-			console.log('missing columns...');
+		if (this.checkHeader(this.foodArticleService.getUsedArticleType())) {
+			this.displayedColumns = this.getHeaderRow(this.foodArticleService.getUsedArticleType());
 			// add a simple row
-			this.dataSource = new MatTableDataSource(['']);
+			const row = this.getFirstRowHits(this.foodArticleService.getUsedArticleType());
+			this.dataSource = new MatTableDataSource([row]);
 
 			this.cd.detectChanges();
 		} else {
+			this.displayedColumns = [];
 			this.loadData();
 		}
 	}
 
-	checkHeader(header: FoodsoftArticleGeneric): string[] {
-		return (
-			Object.keys(header)
-				.filter((key) => header[key].cPos < 0 && !header[key].optional)
-				// return the name of the column - which is expected in the CSV file
-				.map((key2) => header[key2].cName)
-		);
+	checkHeader(header: FoodsoftArticleGeneric): string | undefined {
+		return Object.keys(header).find((key) => header[key].cPos < 0 && !header[key].optional);
+	}
+	// return the name of the column - which is expected in the CSV file
+	getHeaderRow(header: FoodsoftArticleGeneric): string[] {
+		const sorted = this.foodArticleService.sortStructure(Object.keys(header));
+		return sorted.map((key) => header[key].cName);
+	}
+	getFirstRowHits(header: FoodsoftArticleGeneric): ColumnValid {
+		const ret = {} as ColumnValid;
+		Object.keys(header).forEach((key) => {
+			const name = header[key].cName;
+			ret[name] = !(header[key].cPos < 0 && !header[key].optional);
+		});
+		return ret;
 	}
 
 	loadData(): void {

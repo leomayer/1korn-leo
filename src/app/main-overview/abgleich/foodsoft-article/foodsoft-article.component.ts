@@ -23,6 +23,8 @@ export class FoodsoftArticleComponent implements OnInit {
 
 	reader: FileReader = new FileReader();
 
+	showCheckResults = true;
+
 	constructor(
 		private stateHolder: StateHolderService,
 		private msgDisplay: MessageComponentComponent,
@@ -56,6 +58,7 @@ export class FoodsoftArticleComponent implements OnInit {
 
 	initReaderGeneric() {
 		this.reader.onload = (e: ProgressEvent) => {
+			this.showCheckResults = true;
 			try {
 				/* read workbook */
 				const bstr: string = (e?.target as FileReader).result as string;
@@ -74,6 +77,7 @@ export class FoodsoftArticleComponent implements OnInit {
 			} catch (e1: unknown) {
 				this.loadSuccess = 0;
 				console.error(e1);
+				this.showChecks(false);
 			}
 			this.cd.detectChanges();
 		};
@@ -95,6 +99,11 @@ export class FoodsoftArticleComponent implements OnInit {
 			this.reader.readAsBinaryString(file);
 			this.fileName = file.name;
 		}
+	}
+
+	showChecks(show: boolean): void {
+		this.showCheckResults = show;
+		this.cd.detectChanges();
 	}
 
 	/**

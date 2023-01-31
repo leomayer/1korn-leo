@@ -31,7 +31,11 @@ export class FoodsoftArticleService {
 			}
 		});
 		ret = ret.filter((keys) => !!keys.length);
-		ret.sort((key1, key2) => {
+		return this.sortStructure(ret);
+	}
+
+	public sortStructure(sortStruc: string[]): string[] {
+		return sortStruc.sort((key1, key2) => {
 			if (FSTablePos[key1] < FSTablePos[key2]) {
 				return -1;
 			} else if (FSTablePos[key1] > FSTablePos[key2]) {
@@ -39,7 +43,6 @@ export class FoodsoftArticleService {
 			}
 			return 0;
 		});
-		return ret;
 	}
 
 	getListOfArticles4Table(input: FoodsoftArticleContainer): FoodsoftArticleGeneric[] {

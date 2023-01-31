@@ -4,26 +4,55 @@
 		<input #fileInput id="file" (change)="onFileChange($event)" hidden type="file" multiple="false" />
 	</div>
 	<ng-container *ngIf="loadSuccess >= 0">
-		<div class="input-info" [ngClass]="{ 'failed-loading': !loadSuccess }">
-			<ng-container *ngIf="fileName?.trim()?.length">
-				<ng-container [ngSwitch]="loadSuccess">
-					<ng-container *ngSwitchCase="1">
-						<span i18n="@@loaded-file"> Loaded file </span>
-					</ng-container>
-					<ng-container *ngSwitchCase="0">
-						<span i18n="@@failed-loading-file">Failed loading file </span>
+		<div class="input-info">
+			<div class="info-span" [ngClass]="{ 'failed-loading': !loadSuccess }">
+				<ng-container *ngIf="fileName?.trim()?.length">
+					<ng-container [ngSwitch]="loadSuccess">
+						<ng-container *ngSwitchCase="1">
+							<span i18n="@@loaded-file"> Loaded file </span>
+						</ng-container>
+						<ng-container *ngSwitchCase="0">
+							<span i18n="@@failed-loading-file">Failed loading file </span>
+						</ng-container>
 					</ng-container>
 				</ng-container>
-			</ng-container>
-		</div>
-		<div class="filename-info">
-			<span> '{{ fileName }}'</span>
+			</div>
+			<div class="info-file">
+				<span> '{{ fileName }}'</span>
+			</div>
 		</div>
 	</ng-container>
-	<div class="article-missing">
-		<app-article-check></app-article-check>
+	<div class="button-check">
+		<ng-container *ngIf="showCheckResults; then expand; else collapse"></ng-container>
 	</div>
+	<ng-container *ngIf="showCheckResults">
+		<div class="article-missing mat-elevation-z8">
+			<app-article-check></app-article-check>
+		</div>
+	</ng-container>
 	<div class="article-list">
 		<app-article-list></app-article-list>
 	</div>
 </div>
+<ng-template #expand>
+	<button
+		mat-icon-button
+		matTooltip="Hide checks"
+		(click)="showChecks(false)"
+		color="primary"
+		i18n-matTooltip="@@hide-checks"
+	>
+		<mat-icon>expand_less</mat-icon>
+	</button>
+</ng-template>
+<ng-template #collapse>
+	<button
+		mat-icon-button
+		matTooltip="Show checks"
+		(click)="showChecks(true)"
+		color="primary"
+		i18n-matTooltip="@@show-checks"
+	>
+		<mat-icon>expand_more</mat-icon>
+	</button>
+</ng-template>

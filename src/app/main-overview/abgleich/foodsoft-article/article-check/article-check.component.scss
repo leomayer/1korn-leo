@@ -1,4 +1,6 @@
 table {
+	margin-top: 8px;
+	margin-bottom: 8px;
 	width: 100%;
 }
 th.mat-header-cell,
@@ -7,4 +9,9 @@ td.mat-cell {
 	hyphens: manual;
 	text-align: center;
 	white-space: break-spaces;
+}
+.btn-load-anyway {
+	button {
+		margin-left: 8px;
+	}
 }

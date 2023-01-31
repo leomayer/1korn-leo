@@ -10,7 +10,7 @@
 	grid-template-rows: min-content 1fr;
 	grid-template-columns: min-content auto 1fr;
 	grid-template-areas:
-		'input-btn input-info filename-info'
+		'input-btn input-info  button-check'
 		'article-missing article-missing article-missing'
 		'article-list article-list article-list';
 	grid-auto-flow: row;
@@ -25,6 +25,8 @@
 }
 .article-missing {
 	grid-area: article-missing;
+	border-radius: 8px;
+	padding: 8px;
 }
 
 .input-btn {
@@ -32,10 +34,6 @@
 	align-self: center;
 }
 
-.input-info {
-	grid-area: input-info;
-	align-self: center;
-}
 .filename-info {
 	grid-area: filename-info;
 	align-self: center;
@@ -43,4 +41,24 @@
 .failed-loading {
 	background-color: mat.get-color-from-palette($redPalette, A100);
 	padding-right: 8px;
+}
+
+.input-info {
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-areas: 'info-span info-file';
+	grid-area: input-info;
+	align-self: center;
+	gap: 0px 0px;
+}
+.info-span {
+	grid-area: info-span;
+}
+.info-file {
+	grid-area: info-file;
+}
+.button-check {
+	grid-area: button-check;
+	justify-self: end;
 }

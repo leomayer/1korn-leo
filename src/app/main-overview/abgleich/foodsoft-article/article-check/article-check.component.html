@@ -1,14 +1,14 @@
-<ng-container *ngIf="missingHeaders.length">
+<ng-container *ngIf="displayedColumns.length">
 	<div class="title">
 		<span i18n="@@scan-of-csv-cols">After loading the CSV file the following column names were found</span>
 	</div>
-	<table mat-table class="mat-elevation-z8" [dataSource]="dataSource">
+	<table mat-table [dataSource]="dataSource">
 		<ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
 			<th *matHeaderCellDef mat-header-cell>
 				<span>{{ col }}</span>
 			</th>
 			<td *matCellDef="let cell" mat-cell>
-				<mat-checkbox [ngModel]="!missingHeaders.includes(col)"></mat-checkbox>
+				<mat-checkbox (click)="$event.preventDefault()" [ngModel]="cell[col]"></mat-checkbox>
 			</td>
 		</ng-container>
 
