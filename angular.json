@@ -29,6 +29,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "localize": true,
             "baseHref": "/1korn-leo/en/",
             "assets": [
               "src/favicon.ico",
@@ -45,11 +46,17 @@
             "scripts": []
           },
           "configurations": {
-          "de": {
+            "de": {
 							"localize": [
 								"de"
 							],
 							"baseHref": "/1korn-leo/de/"
+						},
+						"en": {
+							"localize": [
+								"en"
+							],
+							"baseHref": "/1korn-leo/en/"
 						},
             "production": {
               "budgets": [

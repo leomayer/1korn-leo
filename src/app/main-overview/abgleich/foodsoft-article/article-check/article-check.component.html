@@ -16,9 +16,9 @@
 		<tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
 	</table>
 	<div class="btn-load-anyway">
-		<span i18n="@@no-data-will-be-displayed">The values for columns with a missing tick will not be displayed.</span>
+		<span i18n="@@no-data-will-be-displayed">Values will only be displayed for columns with a tick.</span>
 		<button mat-raised-button (click)="loadData()" color="primary">
-			<span i18n="@@load-anyway">Load the result anyway</span>
+			<span i18n="@@load-anyway">Show the result anyway</span>
 		</button>
 	</div>
 </ng-container>

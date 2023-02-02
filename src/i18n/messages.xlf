@@ -2,46 +2,88 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en" datatype="plaintext" original="ng2.template">
     <body>
-      <trans-unit id="no-data-loaded" datatype="html">
-        <source>No data loaded</source>
+      <trans-unit id="scan-of-csv-cols" datatype="html">
+        <source>After loading the CSV file the following column names were found</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/article-check/article-check.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="no-data-will-be-displayed" datatype="html">
+        <source>Values will only be displayed for columns with a tick.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/article-check/article-check.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="load-anyway" datatype="html">
+        <source>Show the result anyway</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/article-check/article-check.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="no-data-yet-loaded" datatype="html">
+        <source>No data yet loaded</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/article-list/article-list.component.html</context>
           <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
       <trans-unit id="choose-file" datatype="html">
-        <source>Choose File</source>
+        <source>Choose File…</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/foodsoft-article.component.html</context>
-          <context context-type="linenumber">2,3</context>
+          <context context-type="linenumber">3,4</context>
         </context-group>
       </trans-unit>
       <trans-unit id="loaded-file" datatype="html">
         <source> Loaded file </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/foodsoft-article.component.html</context>
-          <context context-type="linenumber">5,6</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="failed-loading-file" datatype="html">
+        <source>Failed loading file </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/foodsoft-article.component.html</context>
+          <context context-type="linenumber">15,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="hide-checks" datatype="html">
+        <source>Hide checks</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/foodsoft-article.component.html</context>
+          <context context-type="linenumber">42,43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="show-checks" datatype="html">
+        <source>Show checks</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/foodsoft-article.component.html</context>
+          <context context-type="linenumber">53,54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fetch-error" datatype="html">
         <source>Fetch error</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/foodsoft-article.component.ts</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">99</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cannot-load-file" datatype="html">
         <source>Cannot load file</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/foodsoft-article.component.ts</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">100</context>
         </context-group>
       </trans-unit>
       <trans-unit id="error-while-load" datatype="html">
         <source>Generic error - see console</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/main-overview/abgleich/foodsoft-article/foodsoft-article.component.ts</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">102</context>
         </context-group>
       </trans-unit>
     </body>
