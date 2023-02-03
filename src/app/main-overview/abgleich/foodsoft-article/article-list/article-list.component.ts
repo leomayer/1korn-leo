@@ -48,7 +48,6 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 		this.useArticleType = this.foodArticleService.getUsedArticleType();
 		this.displayedColumns = this.foodArticleService.getDisplayColumn(true);
 		this.listOfArticles = this.foodArticleService.getListOfArticles4Table(container);
-		console.log('list', this.listOfArticles);
 		this.dataSource = new MatTableDataSource(this.listOfArticles);
 		// returns the property of the column definition (matColumnDef) by fetching the content from the row
 		//this.dataSource.sortingDataAccessor = (rowItem, property) => rowItem[property];

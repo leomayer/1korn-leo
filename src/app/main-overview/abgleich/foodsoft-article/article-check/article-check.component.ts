@@ -64,7 +64,7 @@ export class ArticleCheckComponent implements OnInit, OnDestroy {
 	// return the name of the column - which is expected in the CSV file
 	getHeaderRow(header: FoodsoftArticleGeneric): string[] {
 		const sorted = this.foodArticleService.sortStructure(Object.keys(header));
-		return sorted.map((key) => header[key].cName);
+		return sorted.filter((chkKey) => !header[chkKey].optional).map((key) => header[key].cName);
 	}
 	getFirstRowHits(header: FoodsoftArticleGeneric): ColumnValid {
 		const ret = {} as ColumnValid;

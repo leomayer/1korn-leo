@@ -15,8 +15,9 @@
 		'article-list article-list article-list';
 	grid-auto-flow: row;
 	gap: 8px 8px;
-	margin-top: 8px;
+	margin-right: 8px;
 	margin-bottom: 8px;
+	margin-left: 8px;
 	width: 100%;
 }
 
@@ -54,6 +55,7 @@
 }
 .info-span {
 	grid-area: info-span;
+	padding-right: 8px;
 }
 .info-file {
 	grid-area: info-file;
