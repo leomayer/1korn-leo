@@ -3,31 +3,36 @@
 </ng-container>
 
 <ng-template #showTable>
-	<table mat-table class="mat-elevation-z8" [dataSource]="dataSource">
-		<ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
-			<th *matHeaderCellDef mat-header-cell [matTooltip]="useArticleType[col]?.cName">
-				<span>{{ useArticleType[col]?.tabHeader ?? useArticleType[col]?.cName }}</span>
-			</th>
-			<td *matCellDef="let cell" mat-cell>
-				<ng-container [ngSwitch]="checkType(cell[col])">
-					<ng-container *ngSwitchCase="'boolean'">
-						<mat-checkbox [(ngModel)]="cell[col].cValue"></mat-checkbox>
+	<div class="table-container">
+		<table mat-table class="mat-elevation-z8" [dataSource]="dataSource">
+			<ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
+				<th *matHeaderCellDef mat-header-cell [matTooltip]="useArticleType[col]?.cName">
+					<span>{{ useArticleType[col]?.tabHeader ?? useArticleType[col]?.cName }}</span>
+				</th>
+				<td *matCellDef="let cell" mat-cell [ngClass]="{ right: checkType(cell[col]) === 'number' }">
+					<ng-container [ngSwitch]="checkType(cell[col])">
+						<ng-container *ngSwitchCase="'boolean'">
+							<mat-checkbox [(ngModel)]="cell[col].cValue"></mat-checkbox>
+						</ng-container>
+						<ng-container *ngSwitchCase="'number'">
+							<span> {{ cell[col].cValue | number }} </span>
+						</ng-container>
+
+						<span *ngSwitchDefault [matTooltip]="useArticleType[col]?.cName">{{ cell[col]?.cValue }}</span>
 					</ng-container>
+				</td>
+			</ng-container>
 
-					<span *ngSwitchDefault [matTooltip]="useArticleType[col]?.cName">{{ cell[col]?.cValue }}</span>
-				</ng-container>
-			</td>
-		</ng-container>
+			<!-- Group header -->
+			<ng-container matColumnDef="groupHeader">
+				<td *matCellDef="let groupBy" mat-cell class="group" colspan="999">
+					<strong>{{ groupBy.category.cValue }}</strong>
+				</td>
+			</ng-container>
 
-		<!-- Group header -->
-		<ng-container matColumnDef="groupHeader">
-			<td *matCellDef="let groupBy" mat-cell class="group" colspan="999">
-				<strong>{{ groupBy.category.cValue }}</strong>
-			</td>
-		</ng-container>
-
-		<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-		<tr *matRowDef="let row; columns: ['groupHeader']; when: isGroup" mat-row></tr>
-		<tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
-	</table>
+			<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+			<tr *matRowDef="let row; columns: ['groupHeader']; when: isGroup" mat-row></tr>
+			<tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+		</table>
+	</div>
 </ng-template>

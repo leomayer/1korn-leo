@@ -10,7 +10,6 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ArticleCheckComponent } from './main-overview/abgleich/foodsoft-article/article-check/article-check.component';
 import { ArticleListComponent } from './main-overview/abgleich/foodsoft-article/article-list/article-list.component';
 import { FoodsoftArticleComponent } from './main-overview/abgleich/foodsoft-article/foodsoft-article.component';
-import { MainOverviewComponent } from './main-overview/main-overview.component';
 import { MaterialDesignModule } from './material-design/material-design.module';
 
 registerLocaleData(localeDe); // de-DE
@@ -19,7 +18,6 @@ registerLocaleData(localeDeAt); // de-AT
 @NgModule({
 	declarations: [
 		AppComponent,
-		MainOverviewComponent,
 		MainMenuComponent,
 		FoodsoftArticleComponent,
 		ArticleListComponent,

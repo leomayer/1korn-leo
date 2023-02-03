@@ -5,19 +5,10 @@
 // and the outlined: https://stackoverflow.com/a/56878630/325868
 @use '@angular/material' as mat;
 
-// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
-//  The following line adds:
-//    1. Default typography styles for all components
-//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
-//  If you specify typography styles for the components you use elsewhere, you should delete this line.
 //  If you don't need the default component typographies but still want the hierarchy styles,
 //  you can delete this line and instead use:
 //    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
-/* TODO(mdc-migration): Remove all-legacy-component-typographies once all legacy components are migrated*/
-@include mat.all-legacy-component-typographies();
 @include mat.all-component-typographies();
-/* TODO(mdc-migration): Remove legacy-core once all legacy components are migrated*/
-@include mat.legacy-core();
 @include mat.core();
 
 $app-primary: mat.define-palette(mat.$indigo-palette);
@@ -27,15 +18,6 @@ $app-theme: mat.define-light-theme($app-primary, $app-accent);
 
 @mixin mix-app-theme($app-theme) {
 	$primary: map-get($app-theme, primary);
-
-	// .mat-button-toggle-checked {
-	//   background-color: mat.get-color-from-palette($primary);
-	//   font-weight: bold;
-
-	//   .mat-button-toggle-label-content{
-	//       color: white;
-	//   }
-	// }
 }
 
 // Include the mixin

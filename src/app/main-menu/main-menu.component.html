@@ -1,5 +1,16 @@
 <mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span>Import von BerSta</span>
-  </mat-toolbar-row>
+	<mat-toolbar-row>
+		<div *ngFor="let route of router.config">
+			<button
+				*ngIf="showInMenubar(route)"
+				mat-button
+				[routerLink]="'/' + route.path"
+				[ngSwitch]="route.path"
+				routerLinkActive="is-active"
+			>
+				<ng-container *ngSwitchCase="'csv-import'" i18n="@@csv-import">CSV import</ng-container>
+				<ng-container *ngSwitchCase="'search'" i18n="@@Search">Search</ng-container>
+			</button>
+		</div>
+	</mat-toolbar-row>
 </mat-toolbar>

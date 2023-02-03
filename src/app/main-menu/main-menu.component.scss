@@ -1,0 +1,8 @@
+@use '@angular/material' as mat;
+@import '../../styles_angular_material.scss';
+
+.is-active {
+	cursor: default;
+	color: mat.get-color-from-palette($yellowPalette, A700);
+	text-decoration: none;
+}

@@ -1,5 +1,14 @@
 @use '@angular/material' as mat;
 @import '../../../../../styles_angular_material.scss';
+.table-container {
+	display: inline-grid;
+	height: 100%;
+	overflow: auto;
+}
+
+table {
+	display: table;
+}
 
 th.mat-mdc-header-cell {
 	justify-content: center;
